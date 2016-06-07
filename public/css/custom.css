@@ -1,0 +1,29 @@
+.pure-menu-item {
+  height: auto;
+}
+.pure-table {
+  width: 100%;
+}
+.alert {
+  position: relative;
+  /*margin-bottom: 1em;*/
+  padding: 0.75em;
+  background: #ccc;
+  /*border-radius: 3px;*/
+}
+.alert-error {
+  background-color: #D13C38;
+  color: #fff;
+}
+.alert-simple {
+  background-color: rgb(209, 235, 238);
+  color: rgb(102, 131, 145);
+}
+.alert-warning {
+  background-color: rgb(250, 191, 103);
+  color: rgb(151, 96, 13);
+}
+.alert-success {
+  background-color: rgb(83, 180, 79);
+  color: #fff;
+}

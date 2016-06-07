@@ -8,6 +8,7 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1"
     link rel="stylesheet" href="css/pure-min.css"
     link rel="stylesheet" href="css/side-menu.css"
+    link rel="stylesheet" href="css/custom.css"
     /![if lte IE 8]><link rel="stylesheet" href="css/grids-responsive-old-ie-min.css"><![endif]
     /![if gt IE 8]><!--><link rel="stylesheet" href="css/grids-responsive-min.css"><!--<![endif]
   body
@@ -20,13 +21,18 @@ html
             | FlickrWrap
           ul.pure-menu-list
             li.pure-menu-item
-              a.pure-menu-link[href="#"]
+              a#sync_link.pure-menu-link[href="#"]
                 | Sync
             li.pure-menu-item
               a.pure-menu-link[href="#"]
+                | Delete
+            li.pure-menu-item
+              a.pure-menu-link[href="#"]
                 | Upload
+      #alerts
       #main
-        - @images.each do |image|
-          p #{image['filename']}
+        == yield
 
-      script src="js/ui.js"
+        script src="js/ui.js"
+        script src="js/jquery.min.js"
+        script src="js/custom.js"
