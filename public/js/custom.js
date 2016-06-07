@@ -24,6 +24,7 @@ $(function (){
   })
   $('#sync_link').on('click', function(e){
     e.preventDefault();
+    $('#sync_link').attr("disabled", true);
     $.ajax({
       type: "POST",
       url: "/sync",
@@ -39,5 +40,6 @@ $(function (){
         $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>")
       }
     });
+    // $('#sync_link').attr("disabled", false);
   })
 });

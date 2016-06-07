@@ -54,6 +54,7 @@ get '/' do
 end
 
 post '/sync' do
+  return 400, {"message": "DONE"}.to_json
   per_page = params['count']
   per_page ||= 10
   photos = flickr.photos.search(user_id: user, per_page: per_page)
