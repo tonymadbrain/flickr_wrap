@@ -36,7 +36,7 @@ $(function (){
       },
       error: function(xhr, status, error) {
         var err = JSON.parse(xhr.responseText)
-        $('#alerts').html("<div class='alert alert-error'>"+err.message+"</div>")
+        $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>")
       }
     });
   })
