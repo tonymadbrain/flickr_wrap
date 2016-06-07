@@ -4,6 +4,7 @@ require 'redis'
 require 'flickraw'
 require 'json'
 require 'dotenv'
+require 'slim'
 
 Dotenv.load
 
@@ -29,16 +30,15 @@ login = flickr.test.login
 puts "You are now authenticated as #{login.username}"
 
 get '/' do
-  @images = ""
+  @images = []
   redis.keys("flickr_*").each do |key|
-    value = JSON.parse(redis.get("#{key}"))
-    puts value
+    @images << JSON.parse(redis.get("#{key}"))
   end
-  return 200, "DONE"
+  slim :index
 end
 
 get '/sync' do
-  photos = flickr.photos.search(user_id: user, per_page: 10)
+  photos = flickr.photos.search(user_id: user, per_page: 500)
   photos.each do |photo|
     info = flickr.photos.getInfo(photo_id: photo.id)
     url = FlickRaw.url_o(info)

@@ -1,0 +1,32 @@
+html
+  head
+    meta charset="utf-8"
+    title FlickrWrap
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
+    meta content="Wrapper for Flickr API" name="description"
+    meta content="@tonymadbrain" name="author"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="css/pure-min.css"
+    link rel="stylesheet" href="css/side-menu.css"
+    /![if lte IE 8]><link rel="stylesheet" href="css/grids-responsive-old-ie-min.css"><![endif]
+    /![if gt IE 8]><!--><link rel="stylesheet" href="css/grids-responsive-min.css"><!--<![endif]
+  body
+    #layout
+      a#menuLink.menu-link[href="#menu"]
+        span
+      #menu
+        .pure-menu
+          a.pure-menu-heading[href="#"]
+            | FlickrWrap
+          ul.pure-menu-list
+            li.pure-menu-item
+              a.pure-menu-link[href="#"]
+                | Sync
+            li.pure-menu-item
+              a.pure-menu-link[href="#"]
+                | Upload
+      #main
+        - @images.each do |image|
+          p #{image['filename']}
+
+      script src="js/ui.js"
