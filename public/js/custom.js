@@ -24,15 +24,10 @@ $(function (){
   })
   $('#sync_link').on('click', function(e){
     e.preventDefault();
-    $('#sync_link').attr("disabled", true);
     $.ajax({
       type: "POST",
       url: "/sync",
-      // data: {"update":true},
-      // dataType: "html",
       success: function() {
-        // var response = JSON.parse ( data );
-        // $('#alerts').html(response.status);
         location.reload();
       },
       error: function(xhr, status, error) {
@@ -40,6 +35,5 @@ $(function (){
         $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>")
       }
     });
-    // $('#sync_link').attr("disabled", false);
   })
 });
