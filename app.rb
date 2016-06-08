@@ -23,6 +23,8 @@ module JsonExceptions
 end
 
 configure :production do
+  register JsonExceptions
+  set :bind, '0.0.0.0'
 end
 
 configure :test do
@@ -32,10 +34,9 @@ configure :development do
   require 'sinatra/reloader'
   register Sinatra::Reloader
   register JsonExceptions
-  set :bind, '0.0.0.0'
 end
 
-redis = Redis.new
+redis = Redis.new(:url => "#{ENV['REDIS_URL']}")
 
 FlickRaw.api_key       = ENV['FLICKR_API_KEY']
 FlickRaw.shared_secret = ENV['FLICKR_SHARED_SECRET']
@@ -61,7 +62,7 @@ end
 
 post '/sync' do
   per_page = params['count']
-  per_page ||= 10
+  per_page ||= 500
   photos = flickr.photos.search(user_id: user, per_page: per_page)
   photos.each do |photo|
     info = flickr.photos.getInfo(photo_id: photo.id)
