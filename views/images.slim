@@ -1,15 +1,16 @@
-table.pure-table.pure-table-bordered
-  thead
-    tr
-      th #
-      th Название
-      th Превью
-  tbody
-    - @images.each do |image|
+form#delete_form
+  table.pure-table.pure-table-bordered
+    thead
       tr
-        td
-          input type="checkbox" name="checkbox" value="#{image['filename']}"
-        td
-          a[href="#{image['url']}"] #{image['filename']}
-        td
-          img.pure-image src="#{image['preview']}"
+        th #
+        th Название
+        th Превью
+    tbody
+      - @images.each do |image|
+        tr
+          td
+            input type="checkbox" name="checkbox" value="#{image['filename']}"
+          td
+            a[href="#{image['url']}"] #{image['filename']}
+          td
+            img.pure-image src="#{image['preview']}"

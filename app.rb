@@ -54,7 +54,6 @@ get '/' do
 end
 
 post '/sync' do
-  # return 400, {"message": "DONE"}.to_json
   per_page = params['count']
   per_page ||= 10
   photos = flickr.photos.search(user_id: user, per_page: per_page)
@@ -66,4 +65,13 @@ post '/sync' do
     redis.set("flickr_#{info['title']}", hash.to_json)
   end
   return 200, {"message": "DONE"}.to_json
+end
+
+post '/delete' do
+  params['checkbox'].each do |i|
+    image = JSON.parse(redis.get("flickr_#{i}"))
+    if flickr.photos.delete(:photo_id => image['id'])
+      redis.del("flickr_#{i}")
+    end
+  end
 end

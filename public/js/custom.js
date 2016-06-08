@@ -12,13 +12,11 @@ $(function (){
       data: {"checkbox":_arr},
       dataType: "html",
       success: function(data) {
-        $.map(_arr, function(value, index) {
-          document.getElementById([value]).remove();
-        });
-        $('#alerts').html(data);
+        location.reload();
       },
       error: function(xhr, status, error) {
-        $('#alerts').html("Some errors: " + error)
+        var err = JSON.parse(xhr.responseText)
+        $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>")
       }
     });
   })
