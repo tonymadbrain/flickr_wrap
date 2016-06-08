@@ -24,7 +24,7 @@ end
 
 configure :production do
   register JsonExceptions
-  set :bind, '0.0.0.0'
+  # set :bind, '0.0.0.0'
 end
 
 configure :test do
