@@ -5,6 +5,7 @@ require 'json'
 require 'dotenv'
 require 'slim'
 require 'http'
+require 'rack/ssl'
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
   username == "#{ENV['FLICKR_WRAP_USERNAME']}" and password == "#{ENV['FLICKR_WRAP_PASSWORD']}"

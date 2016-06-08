@@ -20,6 +20,8 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    rack-ssl (1.4.1)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     redis (3.3.0)
@@ -50,10 +52,14 @@ DEPENDENCIES
   dotenv
   flickraw
   http
+  rack-ssl
   redis (~> 3.2)
   sinatra
   sinatra-contrib
   slim
+
+RUBY VERSION
+   ruby 2.2.4p230
 
 BUNDLED WITH
    1.12.5
