@@ -59,6 +59,7 @@ end
 before do
   if settings.production?
     redirect "https://#{request.url}" unless request.secure?
+  end
 end
 
 get '/' do
