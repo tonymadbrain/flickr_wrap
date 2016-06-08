@@ -7,6 +7,7 @@ require 'slim'
 require 'http'
 require 'rack/ssl'
 
+use Rack::SSL, :exclude => lambda { |env| ENV['RACK_ENV'] != 'production' }
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
   username == "#{ENV['FLICKR_WRAP_USERNAME']}" and password == "#{ENV['FLICKR_WRAP_PASSWORD']}"
 end
@@ -30,7 +31,6 @@ end
 configure :production do
   register JsonExceptions
   set :bind, '0.0.0.0'
-  use Rack::SSL
 end
 
 configure :test do
