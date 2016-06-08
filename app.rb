@@ -6,6 +6,10 @@ require 'dotenv'
 require 'slim'
 require 'http'
 
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == "#{ENV['FLICKR_WRAP_USERNAME']}" and password == "#{ENV['FLICKR_WRAP_PASSWORD']}"
+end
+
 Dotenv.load
 
 module JsonExceptions
