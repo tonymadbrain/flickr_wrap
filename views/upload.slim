@@ -1,0 +1,6 @@
+form(id="upload_form" method="post" enctype='multipart/form-data' action='/upload' style="margin: 1em 0 0 1em;")
+  #files
+    p
+      input(type='file' name='images[]' multiple)
+  /a#add_file.pure-button.pure-button-primary[href="#"] Add file
+  input(type='submit' value='Upload' class="pure-button button-success")

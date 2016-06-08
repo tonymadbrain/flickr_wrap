@@ -3,6 +3,7 @@ $(function (){
    var check_item = $('input:checked','#delete_form'),
    _arr = [];
     e.preventDefault();
+    $(this).hide();
     check_item.each(function(item, index){
       _arr.push($(index).prop('value'));
     });
@@ -15,13 +16,14 @@ $(function (){
         location.reload();
       },
       error: function(xhr, status, error) {
-        var err = JSON.parse(xhr.responseText)
-        $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>")
+        var err = JSON.parse(xhr.responseText);
+        $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>");
       }
     });
   })
   $('#sync_link').on('click', function(e){
     e.preventDefault();
+    $(this).hide();
     $.ajax({
       type: "POST",
       url: "/sync",
@@ -29,9 +31,13 @@ $(function (){
         location.reload();
       },
       error: function(xhr, status, error) {
-        var err = JSON.parse(xhr.responseText)
-        $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>")
+        var err = JSON.parse(xhr.responseText);
+        $('#alerts').html("<div class='alert alert-error'>"+xhr.status+" "+error+": "+err.message+"</div>");
       }
     });
   })
+  // $('#add_file').on('click', function(e){
+  //   e.preventDefault();
+  //   $('#files').append("<p><input name='file' type='file'></p>");
+  // })
 });

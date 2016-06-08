@@ -4,6 +4,7 @@ require 'flickraw'
 require 'json'
 require 'dotenv'
 require 'slim'
+require 'http'
 
 Dotenv.load
 
@@ -45,6 +46,11 @@ user                   = ENV['FLICKR_USER']
 login = flickr.test.login
 puts "You are now authenticated as #{login.username}"
 
+def timenow
+  date_and_time = '%Y-%b-%d %H:%M:%S'
+  Time.now.strftime(date_and_time)
+end
+
 get '/' do
   @images = []
   redis.keys("flickr_*").each do |key|
@@ -73,5 +79,23 @@ post '/delete' do
     if flickr.photos.delete(:photo_id => image['id'])
       redis.del("flickr_#{i}")
     end
+  end
+end
+
+get '/upload' do
+  slim :upload, layout: :index
+end
+
+post '/upload' do
+  redirect '/upload', 'No file specified' if params['images'].nil?
+  params['images'].each do |i|
+    flickr.upload_photo(
+      i[:tempfile],
+      title: "#{i[:filename]}",
+      description: "#{i[:filename]} uploaded through API at #{timenow}!",
+      tags: "#{i[:filename]}"
+    )
+    # HTTP.post("http://#{request.host}:#{request.port}/sync")
+    redirect '/'
   end
 end
