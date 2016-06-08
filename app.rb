@@ -29,6 +29,7 @@ end
 configure :production do
   register JsonExceptions
   set :bind, '0.0.0.0'
+  use Rack::SSL
 end
 
 configure :test do
