@@ -56,6 +56,11 @@ def timenow
   Time.now.strftime(date_and_time)
 end
 
+before do
+  if settings.production?
+    redirect "https://#{request.url}" unless request.secure?
+end
+
 get '/' do
   @images = []
   redis.keys("flickr_*").each do |key|
