@@ -58,7 +58,7 @@ end
 
 before do
   if settings.production?
-    redirect "https://#{request.url}" unless request.secure?
+    redirect request.url.sub('http', 'https') unless request.secure?
   end
 end
 
