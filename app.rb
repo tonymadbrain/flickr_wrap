@@ -58,11 +58,11 @@ def timenow
   Time.now.strftime(date_and_time)
 end
 
-before do
-  if settings.production?
-    redirect request.url.sub('http', 'https') unless request.secure?
-  end
-end
+# before do
+#   if settings.production?
+#     redirect request.url.sub('http', 'https') unless request.secure?
+#   end
+# end
 
 get '/' do
   @images = []
