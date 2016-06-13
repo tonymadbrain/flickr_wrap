@@ -109,6 +109,6 @@ post '/upload' do
       tags: "#{i[:filename]}"
     )
     # HTTP.post("http://#{request.host}:#{request.port}/sync")
-    redirect '/'
   end
+  redirect '/'
 end
