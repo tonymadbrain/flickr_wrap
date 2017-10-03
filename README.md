@@ -1,6 +1,6 @@
 # Flickr wrapper
 
-[EN](https://github.com/tonymadbrain/flickr_wrap/tree/master#en)
+[EN](https://github.com/tonymadbrain/flickr_wrap/tree/master/#en)
 
 ## RU
 
