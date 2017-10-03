@@ -2,42 +2,42 @@
 
 ## RU
 
-Данное приложение написано чтобы использовать flickr в качестве хранилища
+Данное приложение написано чтобы использовать Flickr в качестве хранилища
 изображений для моего блога - http://doam.ru. Это простое приложение-обертка,
-написанное на sinatra, работающее через flickr API.
+написанное на sinatra, работающее через Flickr API.
 
 ![Main page](https://github.com/tonymadbrain/flickr_wrap/blob/master/screenshot.png "Main page")
 
 ### Возможности
 
-* Выгрузка в redis базу списка фотографий загруженных в облако flickr
+* Выгрузка в redis базу списка фотографий загруженных в облако Flickr
 (выгружаются: ссылка на оригинал, заголовок, ссылка для показа превью)
 * Удаление одной или нескольких фотографий из облакка
 * Загрузка фотографий в облако
 
 ### Используется
 
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'redis', '~>3.2'
-gem 'flickraw'
-gem 'dotenv'
-gem 'slim'
-gem 'http'
-gem 'rack-ssl'
-
 * `sinatra` - не рельсами едиными
 * `slim` - пишем html шаблоны без %
-* `flickraw` - собственно гем для работы с flickr API
+* `flickraw` - собственно гем для работы с Flickr API
 * `redis` - быстрое kv хранилище
 
 ### Заметки:
 
-* https://github.com/hanklords/flickraw - гем для flickr API
+* https://github.com/hanklords/flickraw - гем для Flickr API
 
-### TODO:
+### Переменные окружения необходимые для запуска приложения
 
-Смотри Pull Requests
+> Вот здесь - https://github.com/hanklords/flickraw/blob/master/README.rdoc можно прочитать подробнее про получение токенов доступа и Flickr API в принципе
+
+FLICKR_WRAP_USERNAME - логин для авторизации
+FLICKR_WRAP_PASSWORD - пароль для авторизации
+FLICKR_API_KEY - API ключ для Flickr API
+FLICKR_SHARED_SECRET - Shared secret для Flickr API
+FLICKR_ACCESS_TOKEN - Access token для Flickr API
+FLICKR_ACCESS_SECRET - Acess secret для Flickr API
+FLICKR_USER - Flickr пользователь
+REDIS_URL - адрес по которому запущен Redis сервер
 
 ### Для запуска:
 
@@ -53,57 +53,29 @@ $ git clone https://github.com/tonymadbrain/flickr_wrap.git
 $ cd flickr_wrap
 ~~~
 
-Создать файлы конфигов и отредактировать их
-
-~~~bash
-$ touch sinatra.rb flickr.yml puma.rb
-~~~
-
 Установить зависимости
 
 ~~~bash
 $ bundle install
 ~~~
 
+Экспортировать переменные окружения или создать файл .env
+
+~~~Bash
+export FLICKR_WRAP_USERNAME=admin
+export FLICKR_WRAP_PASSWORD=password
+export FLICKR_API_KEY=g9lCzIAdjvvvPaxU6L8CVf1um
+export FLICKR_SHARED_SECRET=g9lCzIAdjvvvPax
+export FLICKR_ACCESS_TOKEN=g9lCzIAdjvvv-PaxU6L8CVf1um
+export FLICKR_ACCESS_SECRET=g9lCzIAdjvvvPa
+export FLICKR_USER=12313131@P01
+export REDIS_URL=redis://localhost:6379/1
+~~~
+
 Запустить сервер
 
 ~~~Bash
-$ puma -C config/puma.rb
-~~~
-
-### Примеры конфигов
-
-flickr.yml:
-~~~yaml
-:api_key: g9lCzIAdjvvvPaxU6L8CVf1um
-:shared_secret: g9lCzIAdjvvvPax
-:access_token: g9lCzIAdjvvv-PaxU6L8CVf1um
-:access_secret: g9lCzIAdjvvvPa
-:user: 12313131@P01
-~~~
-
-sinatra.rb:
-~~~ruby
-#configuration
-configure do
-  set :server, :puma
-end
-~~~
-
-puma.rb:
-~~~ruby
-root = "#{Dir.getwd}"
-
-daemonize false
-environment 'development'
-bind "unix:///tmp/flickr_api.socket"
-pidfile "/tmp/flickr_api.pid"
-rackup "#{root}/config.ru"
-stdout_redirect "/tmp/flickr_api.stdout.log", "/tmp/flickr_api.stderr.log"
-threads 1, 1
-
-#activate_control_app
-#state_path "/tmp/flickr_state"
+$ bundle exec rackup config.ru -p 3000
 ~~~
 
 ### Контакты
