@@ -88,8 +88,6 @@ $ bundle exec rackup config.ru -p 3000
 
 This application allow using Flickr for storage and CDN for my blog images. It is just wrapper on sinatra around flickraw gem.
 
-![Main page](https://github.com/tonymadbrain/flickr_wrap/blob/master/screenshot.png "Main page")
-
 ### Features
 
 * Export images from Flickr cloud to redis with: link to original image, title and preview image link.
