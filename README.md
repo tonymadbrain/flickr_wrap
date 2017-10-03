@@ -32,14 +32,14 @@
 
 > Вот здесь - https://github.com/hanklords/flickraw/blob/master/README.rdoc можно прочитать подробнее про получение токенов доступа и Flickr API в принципе
 
-FLICKR_WRAP_USERNAME - логин для авторизации
-FLICKR_WRAP_PASSWORD - пароль для авторизации
-FLICKR_API_KEY - API ключ для Flickr API
-FLICKR_SHARED_SECRET - Shared secret для Flickr API
-FLICKR_ACCESS_TOKEN - Access token для Flickr API
-FLICKR_ACCESS_SECRET - Acess secret для Flickr API
-FLICKR_USER - Flickr пользователь
-REDIS_URL - адрес по которому запущен Redis сервер
+* FLICKR_WRAP_USERNAME - логин для авторизации
+* FLICKR_WRAP_PASSWORD - пароль для авторизации
+* FLICKR_API_KEY - API ключ для Flickr API
+* FLICKR_SHARED_SECRET - Shared secret для Flickr API
+* FLICKR_ACCESS_TOKEN - Access token для Flickr API
+* FLICKR_ACCESS_SECRET - Acess secret для Flickr API
+* FLICKR_USER - Flickr пользователь
+* REDIS_URL - адрес по которому запущен Redis сервер
 
 ### Для запуска
 
@@ -111,14 +111,14 @@ This application allow using Flickr for storage and CDN for my blog images. It i
 
 > Here - https://github.com/hanklords/flickraw/blob/master/README.rdoc you can read about gem, Flickr API and access tokens
 
-FLICKR_WRAP_USERNAME - login for auth
-FLICKR_WRAP_PASSWORD - password for auth
-FLICKR_API_KEY
-FLICKR_SHARED_SECRET
-FLICKR_ACCESS_TOKEN
-FLICKR_ACCESS_SECRET
-FLICKR_USER - Flickr user
-REDIS_URL - url for running redis server
+* FLICKR_WRAP_USERNAME - login for auth
+* FLICKR_WRAP_PASSWORD - password for auth
+* FLICKR_API_KEY
+* FLICKR_SHARED_SECRET
+* FLICKR_ACCESS_TOKEN
+* FLICKR_ACCESS_SECRET
+* FLICKR_USER - Flickr user
+* REDIS_URL - url for running redis server
 
 ### For start
 
