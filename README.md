@@ -59,7 +59,7 @@ $ cd flickr_wrap
 $ bundle install
 ~~~
 
-Экспортировать переменные окружения или создать файл .env
+Экспортировать переменные окружения или создать файл `.env`
 
 ~~~Bash
 export FLICKR_WRAP_USERNAME=admin
@@ -90,17 +90,16 @@ This application allow using Flickr for storage and CDN for my blog images. It i
 
 ### Features
 
-* Выгрузка в redis базу списка фотографий загруженных в облако Flickr
-(выгружаются: ссылка на оригинал, заголовок, ссылка для показа превью)
-* Удаление одной или нескольких фотографий из облакка
-* Загрузка фотографий в облако
+* Export images from Flickr cloud to redis with: link to original image, title and preview image link.
+* Delete one or more images in cloud
+* Upload images to Flickr cloud
 
 ### Tech used
 
-* `sinatra` - не рельсами едиными
-* `slim` - пишем html шаблоны без %
-* `flickraw` - собственно гем для работы с Flickr API
-* `redis` - быстрое kv хранилище
+* `sinatra` - not only rails in the world
+* `slim` - html templats without pain
+* `flickraw` - gem for Flickr API
+* `redis` - fast kv storage
 
 ### Notes:
 
@@ -108,38 +107,38 @@ This application allow using Flickr for storage and CDN for my blog images. It i
 
 ### Required environment variables
 
-> Вот здесь - https://github.com/hanklords/flickraw/blob/master/README.rdoc можно прочитать подробнее про получение токенов доступа и Flickr API в принципе
+> Here - https://github.com/hanklords/flickraw/blob/master/README.rdoc you can read about gem, Flickr API and access tokens
 
-FLICKR_WRAP_USERNAME - логин для авторизации
-FLICKR_WRAP_PASSWORD - пароль для авторизации
-FLICKR_API_KEY - API ключ для Flickr API
-FLICKR_SHARED_SECRET - Shared secret для Flickr API
-FLICKR_ACCESS_TOKEN - Access token для Flickr API
-FLICKR_ACCESS_SECRET - Acess secret для Flickr API
-FLICKR_USER - Flickr пользователь
-REDIS_URL - адрес по которому запущен Redis сервер
+FLICKR_WRAP_USERNAME - login for auth
+FLICKR_WRAP_PASSWORD - password for auth
+FLICKR_API_KEY
+FLICKR_SHARED_SECRET
+FLICKR_ACCESS_TOKEN
+FLICKR_ACCESS_SECRET
+FLICKR_USER - Flickr user
+REDIS_URL - url for running redis server
 
 ### For start
 
-Склонировать репозиторий
+Clone repo
 
 ~~~bash
 $ git clone https://github.com/tonymadbrain/flickr_wrap.git
 ~~~
 
-Перейти в папку с приложением
+Change directory to new project
 
 ~~~bash
 $ cd flickr_wrap
 ~~~
 
-Установить зависимости
+Install dependices
 
 ~~~bash
 $ bundle install
 ~~~
 
-Экспортировать переменные окружения или создать файл .env
+Export environment variables or create `.env` file
 
 ~~~Bash
 export FLICKR_WRAP_USERNAME=admin
@@ -152,7 +151,7 @@ export FLICKR_USER=12313131@P01
 export REDIS_URL=redis://localhost:6379/1
 ~~~
 
-Запустить сервер
+Run server
 
 ~~~Bash
 $ bundle exec rackup config.ru -p 3000
@@ -160,4 +159,4 @@ $ bundle exec rackup config.ru -p 3000
 
 ### Contact
 
-По любым вопросам можете писать на <a href="mailto:mail@doam.ru?Subject=Flickr_API_Wrapper" target="_top">почту</a>.
+For any questions you can use <a href="mailto:mail@doam.ru?Subject=Flickr_API_Wrapper" target="_top">e-mail</a>.
