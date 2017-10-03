@@ -1,5 +1,7 @@
 # Flickr wrapper
 
+[EN](https://github.com/tonymadbrain/flickr_wrap/#en)
+
 ## RU
 
 Данное приложение написано чтобы использовать Flickr в качестве хранилища
