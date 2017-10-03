@@ -24,10 +24,6 @@
 * `flickraw` - собственно гем для работы с Flickr API
 * `redis` - быстрое kv хранилище
 
-### Заметки:
-
-* https://github.com/hanklords/flickraw - гем для Flickr API
-
 ### Переменные окружения необходимые для запуска приложения
 
 > Вот здесь - https://github.com/hanklords/flickraw/blob/master/README.rdoc можно прочитать подробнее про получение токенов доступа и Flickr API в принципе
@@ -100,10 +96,6 @@ This application allow using Flickr for storage and CDN for my blog images. It i
 * `slim` - html templats without pain
 * `flickraw` - gem for Flickr API
 * `redis` - fast kv storage
-
-### Notes:
-
-* https://github.com/hanklords/flickraw - гем для Flickr API
 
 ### Required environment variables
 
