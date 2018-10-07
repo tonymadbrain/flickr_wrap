@@ -66,9 +66,12 @@ end
 
 get '/' do
   @images = []
+
   redis.keys("flickr_*").each do |key|
     @images << JSON.parse(redis.get("#{key}"))
   end
+
+  @images.sort_by! { |i| i['filename'] }
   slim :images, layout: :index
 end
 
