@@ -43,7 +43,7 @@ configure :development do
 end
 
 redis_url = 'redis://127.0.0.1:6379'
-redis_url ||= ENV['REDIS_URL']
+redis_url = ENV['REDIS_URL'] if ENV['REDIS_URL']
 redis     = Redis.new(url: redis_url)
 
 FlickRaw.api_key       = ENV['FLICKR_API_KEY']
