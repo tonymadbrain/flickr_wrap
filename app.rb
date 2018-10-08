@@ -42,7 +42,9 @@ configure :development do
   register JsonExceptions
 end
 
-redis = Redis.new(:url => "#{ENV['REDIS_URL']}")
+redis_url = 'redis://127.0.0.1:6379'
+redis_url ||= ENV['REDIS_URL']
+redis     = Redis.new(url: redis_url)
 
 FlickRaw.api_key       = ENV['FLICKR_API_KEY']
 FlickRaw.shared_secret = ENV['FLICKR_SHARED_SECRET']
@@ -76,17 +78,23 @@ get '/' do
 end
 
 post '/sync' do
-  per_page = params['count']
-  per_page ||= 500
-  photos = flickr.photos.search(user_id: user, per_page: per_page)
-  photos.each do |photo|
-    info = flickr.photos.getInfo(photo_id: photo.id)
-    url = FlickRaw.url_o(info)
-    url_small = FlickRaw.url_t(info)
-    hash = {id: photo.id, filename: info['title'], url: url, preview: url_small}
-    redis.set("flickr_#{info['title']}", hash.to_json)
+  child_pid = Process.fork do
+    per_page = params['count']
+    per_page ||= 500
+    photos = flickr.photos.search(user_id: user, per_page: per_page)
+    photos.each do |photo|
+      info = flickr.photos.getInfo(photo_id: photo.id)
+      url = FlickRaw.url_o(info)
+      url_small = FlickRaw.url_t(info)
+      hash = {id: photo.id, filename: info['title'], url: url, preview: url_small}
+      redis.set("flickr_#{info['title']}", hash.to_json)
+    end
+    Process.exit
   end
-  return 200, {"message": "DONE"}.to_json
+
+  Process.detach child_pid # No zombie process
+
+  return 200, {message: "Doing hard work in the background"}.to_json
 end
 
 post '/delete' do
