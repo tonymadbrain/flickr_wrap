@@ -27,8 +27,10 @@ $(function (){
     $.ajax({
       type: "POST",
       url: "/sync",
-      success: function() {
-        location.reload();
+      success: function(data) {
+        var alert = JSON.parse(data);
+        $('#alerts').html("<div class='alert alert-success'>"+alert.message+"</div>");
+        // location.reload();
       },
       error: function(xhr, status, error) {
         var err = JSON.parse(xhr.responseText);
