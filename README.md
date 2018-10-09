@@ -5,7 +5,7 @@
 ## RU
 
 Данное приложение написано чтобы использовать Flickr в качестве хранилища
-изображений для моего блога - http://doam.ru. Это простое приложение-обертка,
+изображений для моего блога - https://doam.ru. Это простое приложение-обертка,
 написанное на sinatra, работающее через Flickr API.
 
 ![Main page](https://github.com/tonymadbrain/flickr_wrap/blob/master/screenshot.png "Main page")
