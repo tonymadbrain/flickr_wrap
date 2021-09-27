@@ -75,6 +75,7 @@ get '/' do
   @images.sort_by! { |i| i['filename'] }
 
   @total_count = redis.get('flickr_total_count')
+  puts "@total_count: #{total_count}"
   slim :images, layout: :index
 end
 
