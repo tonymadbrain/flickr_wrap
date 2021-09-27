@@ -88,6 +88,7 @@ post '/sync' do
       url_small = FlickRaw.url_t(info)
       hash = {id: photo.id, filename: info['title'], url: url, preview: url_small}
       redis.set("flickr_#{info['title']}", hash.to_json)
+      sleep(0.5)
     end
     Process.exit
   end
