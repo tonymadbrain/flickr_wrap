@@ -69,12 +69,12 @@ end
 
 get '/' do
   @images = []
-
   redis.keys("flickr_*").each do |key|
     @images << JSON.parse(redis.get("#{key}"))
   end
-
   @images.sort_by! { |i| i['filename'] }
+
+  @total_count = redis.get('flickr_total_count')
   slim :images, layout: :index
 end
 
@@ -86,6 +86,7 @@ post '/sync' do
     per_page ||= 500
     photos = flickr.photos.search(user_id: user, per_page: per_page)
     puts "[#{trace_id}] photos found: #{photos.count}"
+    redis.set('flickr_total_count', photos.count)
     photos.each do |photo|
       info = flickr.photos.getInfo(photo_id: photo.id)
       url = FlickRaw.url_o(info)
