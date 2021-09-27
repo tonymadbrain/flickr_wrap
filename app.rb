@@ -6,6 +6,7 @@ require 'dotenv'
 require 'slim'
 require 'http'
 require 'rack/ssl'
+require 'ulid'
 
 use Rack::SSL, :exclude => lambda { |env| ENV['RACK_ENV'] != 'production' }
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
@@ -78,18 +79,24 @@ get '/' do
 end
 
 post '/sync' do
+  trace_id = ULID.generate
+  puts "[#{trace_id}] sync started"
   child_pid = Process.fork do
     per_page = params['count']
     per_page ||= 500
     photos = flickr.photos.search(user_id: user, per_page: per_page)
+    puts "[#{trace_id}] photos found: #{photos.count}"
     photos.each do |photo|
       info = flickr.photos.getInfo(photo_id: photo.id)
       url = FlickRaw.url_o(info)
       url_small = FlickRaw.url_t(info)
       hash = {id: photo.id, filename: info['title'], url: url, preview: url_small}
-      redis.set("flickr_#{info['title']}", hash.to_json)
+      db_key = "flickr_#{info['title']}"
+      redis.set(db_key, hash.to_json)
+      puts "[#{trace_id}] key '#{db_key}' stored in db with hash: #{hash}"
       sleep(0.5)
     end
+    puts "[#{trace_id}] sync finished"
     Process.exit
   end
 
