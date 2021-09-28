@@ -6,7 +6,6 @@ require 'dotenv'
 require 'slim'
 require 'http'
 require 'rack/ssl'
-require 'ulid'
 
 use Rack::SSL, :exclude => lambda { |env| ENV['RACK_ENV'] != 'production' }
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
@@ -69,36 +68,34 @@ end
 
 get '/' do
   @images = []
-  redis.keys("flickr_*").each do |key|
+  redis.keys("flickr_photo_*").each do |key|
     @images << JSON.parse(redis.get("#{key}"))
   end
-  @images.sort_by! { |i| i['filename'] }
+  @images.sort_by! { |i| i['date_posted'] }.reverse!
 
-  @total_count = redis.get('flickr_total_count')
-  puts "@total_count: #{total_count}"
+  @total_count = redis.get('flickr_count_total')
+  @total_count ||= 0
   slim :images, layout: :index
 end
 
 post '/sync' do
-  trace_id = ULID.generate
-  puts "[#{trace_id}] sync started"
   child_pid = Process.fork do
     per_page = params['count']
     per_page ||= 500
     photos = flickr.photos.search(user_id: user, per_page: per_page)
-    puts "[#{trace_id}] photos found: #{photos.count}"
-    redis.set('flickr_total_count', photos.count)
+    redis.set('flickr_count_total', photos.count)
     photos.each do |photo|
-      info = flickr.photos.getInfo(photo_id: photo.id)
+      id = photo.id
+      info = flickr.photos.getInfo(photo_id: id)
+      title = info['title']
       url = FlickRaw.url_o(info)
       url_small = FlickRaw.url_t(info)
-      hash = {id: photo.id, filename: info['title'], url: url, preview: url_small}
-      db_key = "flickr_#{info['title']}"
+      date_posted = info.dates.posted
+
+      db_key = "flickr_photo_#{title}_#{date_posted}"
+      hash = {id: id, filename: title, url: url, preview: url_small, date_posted: date_posted}
       redis.set(db_key, hash.to_json)
-      puts "[#{trace_id}] key '#{db_key}' stored in db with hash: #{hash}"
-      sleep(0.5)
     end
-    puts "[#{trace_id}] sync finished"
     Process.exit
   end
 
@@ -109,9 +106,9 @@ end
 
 post '/delete' do
   params['checkbox'].each do |i|
-    image = JSON.parse(redis.get("flickr_#{i}"))
+    image = JSON.parse(redis.get("flickr_photo_#{i}"))
     if flickr.photos.delete(:photo_id => image['id'])
-      redis.del("flickr_#{i}")
+      redis.del("flickr_photo_#{i}")
     end
   end
 end
