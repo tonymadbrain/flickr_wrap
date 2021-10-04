@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '3.0.2'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
@@ -9,4 +9,7 @@ gem 'dotenv'
 gem 'slim'
 gem 'http'
 gem 'rack-ssl'
-gem 'ulid'
+
+group :dev do
+  gem 'webrick'
+end
