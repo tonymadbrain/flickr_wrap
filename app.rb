@@ -68,12 +68,13 @@ end
 
 get '/' do
   @images = []
-
-  redis.keys("flickr_*").each do |key|
+  redis.keys("flickr_photo_*").each do |key|
     @images << JSON.parse(redis.get("#{key}"))
   end
+  @images.sort_by! { |i| i['date_posted'] }.reverse!
 
-  @images.sort_by! { |i| i['filename'] }
+  @total_count = redis.get('flickr_count_total')
+  @total_count ||= 0
   slim :images, layout: :index
 end
 
@@ -82,12 +83,18 @@ post '/sync' do
     per_page = params['count']
     per_page ||= 500
     photos = flickr.photos.search(user_id: user, per_page: per_page)
+    redis.set('flickr_count_total', photos.count)
     photos.each do |photo|
-      info = flickr.photos.getInfo(photo_id: photo.id)
+      id = photo.id
+      info = flickr.photos.getInfo(photo_id: id)
+      title = info['title']
       url = FlickRaw.url_o(info)
       url_small = FlickRaw.url_t(info)
-      hash = {id: photo.id, filename: info['title'], url: url, preview: url_small}
-      redis.set("flickr_#{info['title']}", hash.to_json)
+      date_posted = info.dates.posted
+
+      db_key = "flickr_photo_#{title}_#{date_posted}"
+      hash = {id: id, filename: title, url: url, preview: url_small, date_posted: date_posted}
+      redis.set(db_key, hash.to_json)
     end
     Process.exit
   end
@@ -99,9 +106,9 @@ end
 
 post '/delete' do
   params['checkbox'].each do |i|
-    image = JSON.parse(redis.get("flickr_#{i}"))
+    image = JSON.parse(redis.get("flickr_photo_#{i}"))
     if flickr.photos.delete(:photo_id => image['id'])
-      redis.del("flickr_#{i}")
+      redis.del("flickr_photo_#{i}")
     end
   end
 end

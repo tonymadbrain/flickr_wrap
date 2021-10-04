@@ -3,14 +3,17 @@ form#delete_form
     thead
       tr
         th #
-        th Название
+        th Название #{@images.count}/#{@total_count}/1000 max
+        th Дата публикации
         th Превью
     tbody
       - @images.each do |image|
         tr
           td
-            input type="checkbox" name="checkbox" value="#{image['filename']}"
+            input type="checkbox" name="checkbox" value="#{image['filename']}_#{image['date_posted']}"
           td
             a[href="#{image['url']}"] #{image['filename']}
+          td
+            | #{Time.at(image['date_posted'].to_i)}
           td
             img.pure-image src="#{image['preview']}"
